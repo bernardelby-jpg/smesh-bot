@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import pandas as pd
-import pandas_ta as ta
+import ta
 import requests
 import random
 import time
@@ -33,18 +33,19 @@ def kalkile_siyal_pwofesyonel(pè_monnen):
         df['low'] = df['low'].astype(float)
         df = df.iloc[::-1].reset_index(drop=True)
 
-        df['EMA20'] = ta.ema(df['close'], length=20)
-        df['EMA50'] = ta.ema(df['close'], length=50)
-        df['CCI'] = ta.cci(df['high'], df['low'], df['close'], length=14)
-        stoch = ta.stoch(df['high'], df['low'], df['close'], k=14, d=3, smooth_k=3)
+        df['EMA20'] = ta.trend.ema_indicator(df['close'], window=20)
+        df['EMA50'] = ta.trend.ema_indicator(df['close'], window=50)
+        df['CCI'] = ta.trend.cci(df['high'], df['low'], df['close'], window=14)
+        df['stoch_k'] = ta.momentum.stoch(df['high'], df['low'], df['close'], window=14)
+        df['stoch_d'] = ta.momentum.stoch_signal(df['high'], df['low'], df['close'], window=14)
         
         close = df['close'].iloc[-1]
         open_p = df['open'].astype(float).iloc[-1]
         ema20 = df['EMA20'].iloc[-1]
         ema50 = df['EMA50'].iloc[-1]
         cci = df['CCI'].iloc[-1]
-        stoch_k = stoch['STOCHk_14_3_3'].iloc[-1]
-        stoch_d = stoch['STOCHd_14_3_3'].iloc[-1]
+        stoch_k = df['stoch_k'].iloc[-1]
+        stoch_d = df['stoch_d'].iloc[-1]
 
         score_call = 0
         score_put = 0
