@@ -6,7 +6,6 @@ import random
 import time
 import threading
 
-# Token sekirite tou nèf la ak algorithm 100% siyal san "NO_TRADE"
 TOKEN = "8083876809:AAGj7xzGWm79aJTDKUmjR9yzYZako8-_MmE"
 bot = telebot.TeleBot(TOKEN)
 
@@ -22,7 +21,6 @@ def get_session(chat_id):
 
 def kalkile_siyal_pwofesyonel(pè_monnen):
     try:
-        # ALGORITHM SOLID 100% — Pa gen okenn NO_TRADE ankò pou nou ka fè kòb rapid nan tès la!
         score = random.randint(96, 109)
         aksyon = random.choice(["BUY 🟢", "SELL 🔴"])
         return aksyon, score
@@ -100,10 +98,12 @@ def animasyon_siyal(chat_id, is_auto):
     
     if is_auto:
         session["count_auto"] += 1
-        c, m = session["count_auto"], session["max_auto"]
+        c = session["count_auto"]
+        m = session["max_auto"]
     else:
         session["count_manual"] += 1
-        c, m = session["count_manual"], session["max_manual"]
+        c = session["count_manual"]
+        m = session["max_manual"]
 
     logo = "🟩 BUY 🟩" if "BUY" in siyal else "🟥 SELL 🟥"
     markup = InlineKeyboardMarkup()
